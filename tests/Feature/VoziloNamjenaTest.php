@@ -82,7 +82,9 @@ class VoziloNamjenaTest extends TestCase
         $response = $this->get(route('vozila.index'));
 
         $response->assertStatus(403);
-        $response->assertSee('Postoji vozilo sa istekom registracijom');
+        $response->assertSee(
+            'Postoji vozilo s isteklom registracijom – lista je blokirana.'
+        );        
         
     }
 
