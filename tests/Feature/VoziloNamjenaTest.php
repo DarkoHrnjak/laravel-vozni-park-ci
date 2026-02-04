@@ -88,4 +88,40 @@ class VoziloNamjenaTest extends TestCase
         
     }
 
+    #[Test]
+    public function jedna_namjena_ima_vise_vozila(): void
+    {
+        $namjena = NamjenaVozila::create([
+            'naziv'=>'Osobno',
+        ]);
+
+        Vozilo::create([
+            'naziv'=>'MAN',
+            'tip'=>'TGS',
+            'motor'=>'dizel',
+            'registracija'=>'ST1111AA',
+            'istek_registracije'=>now()->subDays(10),
+            'namjenaid'=> $namjena->id,
+        ]);
+
+        Vozilo::create([
+            'naziv'=>'Mercedes',
+            'tip'=>'Actros',
+            'motor'=>'dizel',
+            'registracija'=>'ST2222BB',
+            'istek_registracije'=>now()->subDays(10),
+            'namjenaid'=> $namjena->id,
+        ]);
+
+        $vozila = Vozilo::where('namjenaid',$namjena->id)
+            ->orderBy('naziv')
+            ->get();
+
+        $this->assertCount(2,$vozila);
+        $this->assertEquals(
+            ['MAN','Mercedes'],
+            $vozila->pluck('naziv')->toArray()
+        );
+    }
+
 }
