@@ -25,18 +25,15 @@ jobs:
           --health-retries=5
 
     steps:
-      - name: Checkout code
+      - name: Checkout
         uses: actions/checkout@v4
 
       - name: Set up PHP
-        uses: shivamathur/setup-php@v2
+        uses: shivammathur/setup-php@v2
         with:
           php-version: "8.2"
           extensions: mbstring, pdo_mysql
           coverage: none
-
-      - name: Install dependencies
-        run: composer install --no-interaction --prefer-dist --optimize-autoloader
 
       - name: Copy env
         run: cp .env.example .env
